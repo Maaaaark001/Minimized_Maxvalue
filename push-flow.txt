@@ -1,4 +1,5 @@
 git status
 git add .                         
 git commit -m "一些信息"  
+git remote add origin git@xxx
 git push -u origin main

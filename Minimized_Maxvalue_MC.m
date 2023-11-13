@@ -7,7 +7,7 @@ t=(0:Sa-1)/fs;%time
 f_list=[66e6 67e6 68e6 69e6 70e6];%频谱量
 fN=length(f_list);
 a_list=[0.9 0.95 1.15 1.15 0.95];%频率对应幅值
-
+sum_a=sum(a_list);
 N=1e5;%蒙特卡洛迭代次数
 temp=1000;
 
@@ -50,10 +50,10 @@ plot(t,sum_0)
 title(["未优化" append("PAR=",num2str(10*log10(max(sum_0).^2/sum(a_list.^2))),"dB")])
 xlabel("t/s")
 ylabel("A")
-ylim([-fN fN])
+ylim([-sum_a sum_a])
 subplot(2,1,2)
 plot(t,temp_sum)
 title(["相位优化后" append("PAR=",num2str(PAR),"dB")])
 xlabel("t/s")
 ylabel("A")
-ylim([-fN fN])
+ylim([-sum_a sum_a])
