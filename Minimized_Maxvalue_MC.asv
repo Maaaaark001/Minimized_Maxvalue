@@ -11,7 +11,6 @@ fN=length(f_list);
 a_list=ones(1,fN);
 sum_a=sum(a_list);
 N=1e3;%蒙特卡洛迭代次数
-n=N/10;%每次查漏迭代次数，少一个量级
 temp=1000;
 
 %蒙特卡洛搜寻核心
@@ -61,6 +60,7 @@ for i=1:N
 end
 %避免边界还有更优的解，在上一组最优相位基础上，保持范围pi/4，查漏
 old_phi=temp_phi;
+n=N/10;
 for i=1:n
     phi_list=old_phi+pi/4*rand(1,fN-1)-pi/8;
     sum_s=a_list(1).*sin(2*pi*f_list(1)*t);
@@ -89,7 +89,7 @@ for i=1:N
         temp_sum=sum_s;
     end
 end
-%避免边界还有更优的解，在上一组最优相位基础上，保持范围pi/16，查漏
+
 old_phi=temp_phi;
 for i=1:n
     phi_list=old_phi+pi/16*rand(1,fN-1)-pi/32;
@@ -104,24 +104,9 @@ for i=1:n
         temp_sum=sum_s;
     end
 end
-%在上一组最优相位基础上，减少搜索范围到pi/64，进行第四次精细搜索
+
 old_phi=temp_phi;
 for i=1:N
-    phi_list=old_phi+pi/64*rand(1,fN-1)-pi/128;
-    sum_s=a_list(1).*sin(2*pi*f_list(1)*t);
-    for j=1:fN-1
-        sum_s=sum_s+a_list(j+1).*sin(2*pi*f_list(j+1)*t+phi_list(j));
-    end
-    max_s=max(sum_s);
-    if max_s<temp
-        temp=max_s;
-        temp_phi=phi_list;
-        temp_sum=sum_s;
-    end
-end
-%避免边界还有更优的解，在上一组最优相位基础上，保持范围pi/64，查漏
-old_phi=temp_phi;
-for i=1:n
     phi_list=old_phi+pi/64*rand(1,fN-1)-pi/128;
     sum_s=a_list(1).*sin(2*pi*f_list(1)*t);
     for j=1:fN-1
